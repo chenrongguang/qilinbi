@@ -25,7 +25,9 @@
                             <th>交易状态</th>
                             <th>货币名称</th>
                             <th>英文标识</th>
+                            <!--
 							<th>钱包余额</th>
+							-->
                             <th>买入手续费</th>
                             <th>卖出手续费</th>
                             <th>最新价</th>
@@ -42,7 +44,9 @@
                             <td><eq name='vo.is_lock' value='0'>已开启<else/>未开启</eq></td>
                             <td>{$vo.currency_name}</td>
                             <td>{$vo.currency_mark}</td>
+                            <!--
 							<td>{$vo.qianbao_balance}</td>
+							-->
                             <td>{$vo.currency_buy_fee}%</td>
                             <td>{$vo.currency_sell_fee}%</td>
                             <td>{$vo['new_price']|default="0.000"}</td>
@@ -70,8 +74,8 @@
 </body>
 </html>
 <script>
-$(".sub-menu").eq(8).show();
-$(".sub-menu").eq(8).children("li").eq(0).addClass("on");
+$(".sub-menu").eq(6).show();
+$(".sub-menu").eq(6).children("li").eq(0).addClass("on");
 
 function limit(id,price_up,price_down){
 	var lid = id;

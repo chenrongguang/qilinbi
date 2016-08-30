@@ -1,6 +1,7 @@
 <?php
 namespace Admin\Controller;
 use Admin\Controller\AdminController;
+use Think\Page;
 class CurrencyController extends AdminController {
 	protected $currency;
 	public function _initialize(){
@@ -149,9 +150,12 @@ class CurrencyController extends AdminController {
 	}
 	public function index(){
 		$list=$this->currency->select();
+		//不需要钱包的功能，去掉，这里执行会很慢-by crg 2016-08-30
+		/*
 		foreach ($list as $k=>$v){
 			$list[$k]['qianbao_balance']=$this->get_qianbao_balance($v);
 		}
+		*/
 		$this->assign('list',$list);
 		$this->assign('empty','暂无数据');
 		$this->display();
@@ -333,5 +337,34 @@ class CurrencyController extends AdminController {
     		$this->ajaxReturn($data);
     	}
     }
+
+	public  function  split(){
+
+		$where=array();
+		$model = M('currency_split');
+		$count      = $model->where($where)->count();// 查询满足要求的总记录数
+		$Page       = new Page($count,25);// 实例化分页类 传入总记录数和每页显示的记录数(25)
+		$show       = $Page->show();// 分页显示输出
+		// 进行分页数据查询 注意limit方法的参数要使用Page类的属性
+		$field=C("DB_PREFIX")."currency_split.*,".C("DB_PREFIX")."currency.currency_name";
+		$list = $model
+			->join(C("DB_PREFIX")."currency on ".C("DB_PREFIX")."currency_split.currency_id=".C("DB_PREFIX")."currency.currency_id")
+			->field($field)
+			->where($where)
+			->limit($Page->firstRow.','.$Page->listRows)->select();
+		$this->assign('splitlist',$list);// 赋值数据集
+		$this->assign('page',$show);// 赋值分页输出
+		$this->display(); // 输出模板
+	}
+
+	//新增拆分
+	public  function  addsplit(){
+		$this->display();
+	}
+
+	//新增拆分提交
+     public function addsplitDo(){
+
+	}
     
 }

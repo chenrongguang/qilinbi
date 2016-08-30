@@ -1,0 +1,73 @@
+    <include file="App/Admin/View/Public/left.html"/>
+    <!--/sidebar-->
+    <div class="main-wrap">
+
+        <div class="crumb-wrap">
+            <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span class="crumb-name">拆分管理</span></div>
+        </div>
+        <div class="search-wrap">
+            
+        </div>
+        <div class="result-wrap">
+
+            <div class="result-title">
+                <div class="result-list">
+                    <a href="{:U('Currency/addSplit')}"><i class="icon-font"></i>新增拆分</a>
+                </div>
+            </div>
+            <div class="result-content">
+                <table class="result-tab" width="100%">
+                    <tr>
+                        <th>货币</th>
+                        <th>价格</th>
+                        <th>倍数</th>
+                        <th>会员比例</th>
+                        <th>1级返佣比例</th>
+                        <th>2级返佣比例</th>
+                        <th>3级返佣比例</th>
+                        <th>创建时间</th>
+                        <th>完成时间</th>
+                        <th>状态</th>
+                    </tr>
+                    <volist name='splitlist' id='vo'>
+                        <tr>
+                            <td>{$vo['currency_name']}</td>
+                            <td>{$vo['price']}</td>
+							<td>{$vo['mult']}</td>
+                            <td>{$vo['member_get']}</td>
+                            <td>{$vo['level1_get']}</td>
+                            <td>{$vo['level2_get']}</td>
+                            <td>{$vo['level3_get']}</td>
+                            <td>{$vo['add_time'|date='Y-m-d H:i:s',###]}</td>
+                            <td>{$vo['finish_time'|date='Y-m-d H:i:s',###]}</td>
+                            <td><if condition="$vo['status'] eq 0">
+									等待处理
+								</if>
+								<if condition="$vo['status'] eq 1">
+									处理中
+								</if>
+                                <if condition="$vo['status'] eq 2">
+                                    处理完成
+                                </if>
+                                <if condition="$vo['status'] eq 3">
+                                    处理失败
+                                </if>
+								</td>
+
+                        </tr>
+                    </volist>
+
+                </table>
+                <div class="list-page"> <ul>{$page}</ul></div>
+            </div>
+
+        </div>
+    </div>
+    <!--/main-->
+</div>
+</body>
+</html>
+    <script>
+$(".sub-menu").eq(6).show();
+$(".sub-menu").eq(6).children("li").eq(0).addClass("on");
+</script>
