@@ -338,6 +338,7 @@ class CurrencyController extends AdminController {
     	}
     }
 
+	//展示拆分列表
 	public  function  split(){
 
 		$where=array();
@@ -365,6 +366,101 @@ class CurrencyController extends AdminController {
 	//新增拆分提交
      public function addsplitDo(){
 
+		 if(!isset($_POST['currency_id'])){
+			 $this->error('请输入币种');
+		 }
+
+		 $model=M('currency_split');
+		 $data['currency_id']=$_POST['currency_id'];
+		 $data['price']=$_POST['price'];
+		 $data['mult']=$_POST['mult'];
+		 $data['member_get']=$_POST['member_get'];
+		 $data['level1_get']=$_POST['level1_get'];
+		 $data['level2_get']=$_POST['level2_get'];
+		 $data['level3_get']=$_POST['level3_get'];
+		 $data['add_user']= $_SESSION['admin_userid'];
+		 $data['add_time']=time();
+
+		 $result=$model->add($data);
+
+		 if($result !=false && $result!=null){
+			 $this->success('添加成功');
+		 }else{
+			 $this->error('添加失败');
+		 }
 	}
+
+
+	//展示回收列表
+	public  function  recovery(){
+
+		$where=array();
+		$model = M('currency_recovery');
+		$count      = $model->where($where)->count();// 查询满足要求的总记录数
+		$Page       = new Page($count,25);// 实例化分页类 传入总记录数和每页显示的记录数(25)
+		$show       = $Page->show();// 分页显示输出
+		// 进行分页数据查询 注意limit方法的参数要使用Page类的属性
+		$field=C("DB_PREFIX")."currency_recovery.*,".C("DB_PREFIX")."currency.currency_name";
+		$list = $model
+			->join(C("DB_PREFIX")."currency on ".C("DB_PREFIX")."currency_recovery.currency_id=".C("DB_PREFIX")."currency.currency_id")
+			->field($field)
+			->where($where)
+			->limit($Page->firstRow.','.$Page->listRows)->select();
+		$this->assign('recoverylist',$list);// 赋值数据集
+		$this->assign('page',$show);// 赋值分页输出
+		$this->display(); // 输出模板
+	}
+
+
+	//新增回收
+	public  function  addrecovery(){
+		$this->display();
+	}
+
+	//新增回收提交
+	public function addrecoveryDo(){
+
+		if(!isset($_POST['currency_id'])){
+			$this->error('请输入币种');
+		}
+
+		$model=M('currency_recovery');
+		$data['currency_id']=$_POST['currency_id'];
+
+		$price =$this->_getcurrencyprice($data['currency_id']);
+		if($price ==false || $price==0){
+			$this->error('该币种当前价格不正确');
+		}
+
+		$data['price']=$price;
+		$data['member_get']=$_POST['member_get'];
+		$data['level1_get']=$_POST['level1_get'];
+		$data['level2_get']=$_POST['level2_get'];
+		$data['level3_get']=$_POST['level3_get'];
+		$data['add_user']= $_SESSION['admin_userid'];
+		$data['add_time']=time();
+
+		$result=$model->add($data);
+
+		if($result !=false && $result!=null){
+			$this->success('添加成功');
+		}else{
+			$this->error('添加失败');
+		}
+	}
+
+	//获取当前币种设置的价格
+	private function _getcurrencyprice($currency_id){
+		$where['currency_id']=$currency_id;
+		$result= M('currency')->field('set_price')->where($where)->find();
+		if($result !=false && $result!=null){
+			return $result['set_price'];
+		}
+		else{
+			return false;
+		}
+
+	}
+
     
 }

@@ -3,7 +3,7 @@
     <div class="main-wrap">
 
         <div class="crumb-wrap">
-            <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span class="crumb-name">拆分管理</span></div>
+            <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span class="crumb-name">回收管理</span></div>
         </div>
         <div class="search-wrap">
             
@@ -12,7 +12,7 @@
 
             <div class="result-title">
                 <div class="result-list">
-                    <a href="{:U('Currency/addsplit')}"><i class="icon-font"></i>新增拆分</a>
+                    <a href="{:U('Currency/addrecovery')}"><i class="icon-font"></i>新增回收</a>
                 </div>
             </div>
             <div class="result-content">
@@ -20,7 +20,6 @@
                     <tr>
                         <th>货币</th>
                         <th>价格</th>
-                        <th>倍数</th>
                         <th>会员比例</th>
                         <th>1级返佣比例</th>
                         <th>2级返佣比例</th>
@@ -29,11 +28,10 @@
                         <th>完成时间</th>
                         <th>状态</th>
                     </tr>
-                    <volist name='splitlist' id='vo'>
+                    <volist name='recoverylist' id='vo'>
                         <tr>
                             <td>{$vo['currency_name']}</td>
                             <td>{$vo['price']}</td>
-							<td>{$vo['mult']}</td>
                             <td>{$vo['member_get']}</td>
                             <td>{$vo['level1_get']}</td>
                             <td>{$vo['level2_get']}</td>
