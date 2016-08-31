@@ -9,25 +9,20 @@
 
             <div style="float: left; width: 30%; margin-right: 20px;">
                 <div class="config-title">
-
                     <h1>
                         <i class="icon-font">&#xe00a;</i>购买麒麟币
                     </h1>
                 </div>
-                <form action="{:U('Safe/admRecharge')}" method="post" id="myform" name="myform">
+                </hr>
+
+                <form method="post" id="goumaiForm" action="{:U('Safe/goumaiDo')}" jump-url="{:U('User/index')}">
                     <div class="config-items">
                         <div class="result-content">
                             <table width="100%" class="insert-tab">
                                 <tbody>
                                 <tr>
-                                    <th style="width: 35%;"><i class="require-red">*</i>充值用户ID：</th>
-                                    <td><input name="member_id" type="text"><span
-                                            id="showBug" style="margin-left: 10px; color: #FF0000"></span></td>
-                                </tr>
-                                <tr>
-                                    <th><i class="require-red">*</i>充值币种：</th>
-                                    <td><select name="currency_id" id="category">
-                                        <option value="0">人民币</option>
+                                    <th><i class="require-red">*</i>购买币种：</th>
+                                    <td><select name="currency_id" id="category" onchange="currency_change()">
                                         <foreach name="currency" item="vo">
                                             <option value="{$vo.currency_id}">{$vo.currency_name}</option>
                                         </foreach>
@@ -35,17 +30,22 @@
 
                                 </tr>
                                 <tr>
-                                    <th><i class="require-red">*</i>充值金额：</th>
-                                    <td><input name="money" type="text"></td>
-                                </tr>
-                                <tr>
-                                    <th><i class="require-red">*</i>管理员密码：</th>
-                                    <td><input name="password" type="password"/></td>
+                                    <th>购买价格：</th>
+                                    <td><input name="price" id="price" type="text" readonly></td>
                                 </tr>
 
-                                <th></th>
-                                <td><input type="submit" value="提交"
-                                           class="btn btn-primary btn6 mr10"></td>
+                                <tr>
+                                    <th>最大可买数量：</th>
+                                    <td><input name="max_count" id="max_count" type="text" readonly></td>
+                                </tr>
+
+                                <tr>
+                                    <th><i class="require-red">*</i>需要购买数量：</th>
+                                    <td><input name="buy_count" id="buy_count" type="text"></td>
+                                </tr>
+                                <tr>
+                                    <th></th>
+                                    <td><input type="submit" class="queding" value="确定购买"></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -55,17 +55,86 @@
             </div>
         </div>
     </div>
-    <script>
-        $(".menu12").addClass("uc-current");
+</div>
+<script>
+    $(".menu12").addClass("uc-current");
 
-        function showTips(id, msg) {
-            var tips = layer.tips(msg, id, {
-                tips: [1, '#fff8db'],
-                area: ['400px', '35px']
-            });
-            $(id).on('mouseout', function () {
-                layer.close(tips);
-            });
+    var max_temp;
+    function showTips(id, msg) {
+        var tips = layer.tips(msg, id, {
+            tips: [1, '#fff8db'],
+            area: ['400px', '35px']
+        });
+        $(id).on('mouseout', function () {
+            layer.close(tips);
+        });
+    }
+
+    $("#category option:first").prop("selected", 'selected');
+    currency_change();
+
+    function currency_change() {
+
+        var currency_id = $('#category').val();
+        $.ajax({
+            type: "post",
+            url: "{:U('Safe/getgoumai')}",
+            data: {
+                currency_id: currency_id
+            },
+            async: false,
+            success: function (d) {
+                /*
+                $("#loading").remove();
+                if (d.status != 1) {
+                    $("#trustmsgout").text(d.info).fadeOut(500).fadeIn(500).fadeOut(500).fadeIn(500).fadeOut(500).fadeIn(500);
+                    //加一个提示
+                    layer.msg(d.info);
+                } else {
+                    layer.msg(d.info);
+                    //刷新页面
+                    setTimeout(window.location.reload(), 2000);
+                }
+                */
+                showresult(d)
+
+            }
+        });
+    }
+
+    function showresult(d) {
+        $('#price').val(d.price);
+        $('#max_count').val(d.max_count);
+        max_temp=d.max_count;
+    }
+
+
+
+    $("#goumaiForm").validate({
+        rules: {
+            buy_count: {
+                required: true,
+                digits: true,
+                max:max_temp,
+                min:1
+            }
+        },
+        messages: {
+            buy_count: {
+                required: '必输输入购买数量',
+                digits: '必须是整数',
+                max: '不能超过最大购买数量',
+                min: '最小数量1',
+            }
+        },
+        submitHandler: function (form) {
+            ajax_submit_form(form)
+            return false;
+        },
+        invalidHandler: function () {  //不通过回调
+            return false;
         }
-    </script>
-    <include file="App/Home/View/Public/footer.html"/>
+    });
+
+</script>
+<include file="App/Home/View/Public/footer.html"/>

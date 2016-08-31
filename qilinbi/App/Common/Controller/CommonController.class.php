@@ -405,7 +405,7 @@ class CommonController extends Controller {
 			$where['currency_id']=array('eq',$currency_id);
 		} 	
      	//获取交易币种信息
-     	$list= M('Currency')->field("currency_id,price_up,price_down,currency_buy_fee,currency_sell_fee,trade_currency_id,is_lock,rpc_url,rpc_pwd,rpc_user,port_number,currency_all_tibi")->where($where)->select();
+     	$list= M('Currency')->field("currency_id,price_up,price_down,currency_buy_fee,currency_sell_fee,trade_currency_id,is_lock,rpc_url,rpc_pwd,rpc_user,port_number,currency_all_tibi,set_price,currency_all_num")->where($where)->select();
     	if (!empty($currency_id)) {
     		return $list[0];  	
      	}else{
