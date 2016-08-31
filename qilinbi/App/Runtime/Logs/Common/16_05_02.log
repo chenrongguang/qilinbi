@@ -1,0 +1,42 @@
+[ 2016-05-02T00:04:11+08:00 ] 111.161.17.65 /favicon.ico
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000000s ]
+ERR: 鏃犳硶鍔犺浇妯″潡:Favicon
+
+[ 2016-05-02T08:49:53+08:00 ] 111.161.17.65 /favicon.ico
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000000s ]
+ERR: 鏃犳硶鍔犺浇妯″潡:Favicon
+
+[ 2016-05-02T11:14:07+08:00 ] 175.154.100.246 /favicon.ico
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000000s ]
+ERR: 鏃犳硶鍔犺浇妯″潡:Favicon
+
+[ 2016-05-02T13:26:52+08:00 ] 111.161.17.65 /favicon.ico
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000000s ]
+ERR: 鏃犳硶鍔犺浇妯″潡:Favicon
+
+[ 2016-05-02T18:16:15+08:00 ] 121.15.121.45 /favicon.ico
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000000s ]
+ERR: 鏃犳硶鍔犺浇妯″潡:Favicon
+
+[ 2016-05-02T19:09:14+08:00 ] 61.135.190.220 /￥2717.80 _ 【火币】虚拟货币交易_比特币交易平台_虚拟币莱特币_比特币官网_files/page_glb_var.js
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000000s ]
+ERR: 鏃犳硶鍔犺浇妯″潡:￥2717.80 _ 【火币】虚拟货币交易_比特币交易平台_虚拟币莱特币_比特币官网_files
+
+[ 2016-05-02T19:09:15+08:00 ] 61.135.190.102 /Public/Home/js/dist/page_index.js
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000000s ]
+ERR: 鏃犳硶鍔犺浇妯″潡:Public
+
