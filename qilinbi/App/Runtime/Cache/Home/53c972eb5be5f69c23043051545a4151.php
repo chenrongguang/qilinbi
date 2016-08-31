@@ -62,7 +62,9 @@
                             <!--<li class="accountico no"></li>-->
                             <li><a href="<?php echo U('User/index');?>">我的资产</a></li>
                             <li><a href="<?php echo U('Entrust/manage');?>">我的交易</a></li>
+							<!--
                             <li><a href="<?php echo U('User/zhongchou');?>">我的众筹</a></li>
+                            -->
                             <li style="border-top:1px solid #666;"><a href="<?php echo U('User/pay');?>">人民币充值</a></li>
                             <li><a href="<?php echo U('User/draw');?>">人民币提现</a></li>
                             <li style="border-bottom:1px solid #444;"><a href="<?php echo U('User/index');?>">充币提币</a></li>
@@ -85,12 +87,17 @@
         <ul class="nav right" style="z-index:9995;">
             <li><a href="<?php echo U('Index/index');?>">首页</a></li>
             <li><a href="<?php echo U('Orders/currency_trade');?>">交易大厅</a></li>
-            <li><a href="<?php echo U('Zhongchou/index');?>">认购中心<!--hr--></a></li>
+			<!--
+            <li><a href="<?php echo U('Zhongchou/index');?>">认购中心</a></li>
+			-->
+			<li><a href="<?php echo U('safe/goumai');?>">购买麒麟币</a></li>
             <li><a href="<?php echo U('Safe/index');?>">用户中心</a></li>
             <li><a href="<?php echo U('Help/index',array('id'=>60));?>">帮助中心</a></li>
             <li><a href="<?php echo U('Art/index',array('ramdon_id'=>'1'));?>">最新动态</a></li>
+			<!--
             <li><a href="<?php echo U('Market/index');?>">行情中心</a></li>
             <li><a href="<?php echo U('Dow/index');?>">下载中心</a></li>
+            -->
         </ul>
     </div>
 </div>
@@ -110,7 +117,7 @@
 				<i class="pcicon1 iscion1"></i>
 				<div class="pcicon1box">
 					<div class="iscionbox">
-						<p><img src="<?php echo ($config['weixin']); ?>" alt="投筹网微信公众号" width="108"></p>
+						<p><img src="<?php echo ($config['weixin']); ?>" alt="微信公众号" width="108"></p>
 						<p><?php echo ((isset($config["name"]) && ($config["name"] !== ""))?($config["name"]):"虚拟网"); ?>微信群</p>
 					</div>
 					<i></i>
@@ -261,8 +268,9 @@ background-color:#e55600;
 						<a href="<?php echo U('Entrust/manage');?>" class="menu2"><b class="ic-uc"></b><i class="iconfont">&#xe616;</i>&nbsp;&nbsp;委托管理</a>
 						<a href="<?php echo U('Trade/myDeal');?>" class="menu3"><b class="ic-uc"></b><i class="iconfont">&#xe65b;</i>&nbsp;&nbsp;我的成交</a>
 						<a href="<?php echo U('Entrust/history');?>" class="menu4"><b class="ic-uc"></b><i class="iconfont">&#xe62d;</i>&nbsp;&nbsp;委托历史</a>
-						
+						<!--
 						<a href="<?php echo U('User/zhongchou');?>" class="menu6"><b class="ic-uc"></b><i class="iconfont">&#xe60b;</i>&nbsp;&nbsp;我的众筹</a>
+						-->
 					</div>
                     <div>
 			<p><i class="iconfont">&#xe60e;</i>&nbsp;安全中心</p>

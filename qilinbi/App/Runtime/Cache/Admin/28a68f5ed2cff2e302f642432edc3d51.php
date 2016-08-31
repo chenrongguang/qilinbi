@@ -215,5 +215,5 @@ $(".sidebar-list li").children("a").on("click",function(){
 </html>
     <script>
 $(".sub-menu").eq(6).show();
-$(".sub-menu").eq(6).children("li").eq(5).addClass("on");
+$(".sub-menu").eq(6).children("li").eq(6).addClass("on");
 </script>

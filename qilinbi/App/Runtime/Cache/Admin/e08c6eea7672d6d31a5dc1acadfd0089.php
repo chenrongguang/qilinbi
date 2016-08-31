@@ -183,7 +183,7 @@ $(".sidebar-list li").children("a").on("click",function(){
                         </tr>
                         <tr>
                             <th><i class="require-red">*</i>1级返佣比例：</th>
-                            <td><input id="level1_get" name="level1_get" type="text" value="0.05" readonly></td>
+                            <td><input id="level1_get" name="level1_get" type="text" value="0.10" readonly></td>
                         </tr>
                         <tr>
                             <th><i class="require-red">*</i>2级返佣比例：</th>
