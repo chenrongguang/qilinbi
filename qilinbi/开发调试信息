@@ -24,10 +24,10 @@ admin
 8.清除一些不需要的表的数据，,有一些基础数据，不要删掉哦
 11.强制拆分功能
    加表，有状态，列表，新增，用任务的形式（不然以后可能会卡）
-      http://local.qilinbi.com/home/cli/task_split
+      http://local.qilinbi.com/cli.php/task/task_split
 12.强制回收功能
-      http://local.qilinbi.com/home/cli/task_recovery
+      http://local.qilinbi.com/cli.php/task/task_recovery
 13.自动回收委托功能
-      http://local.qilinbi.com/home/cli/task_revocery_order
+      http://local.qilinbi.com/cli.php/task/task_revocery_order
 14.任务调试路径
 
