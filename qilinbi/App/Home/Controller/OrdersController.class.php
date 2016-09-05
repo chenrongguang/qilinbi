@@ -64,6 +64,12 @@ class OrdersController extends CommonController{
     }
     //交易大厅
     public function currency_trade(){
+
+        //如果没登录的活，不能查看交易中心页，要求先登录
+        if(empty($_SESSION['USER_KEY_ID'])){
+            $this->redirect("Login/index");
+        }
+
         $count = M('Currency')->where('is_line=1')->count();//根据分类查找数据数量
         $page = new \Think\Page($count,10);//实例化分页类，传入总记录数和每页显示数
         $show = $page->show();//分页显示输出性

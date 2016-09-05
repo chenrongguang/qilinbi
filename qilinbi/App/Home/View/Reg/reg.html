@@ -18,6 +18,23 @@
                 <div class="ybc_text left"><input name="email" id="email" type="text"></div>
                 <div class="ybc_hint left"><strong class="msg_i" id="email_msg">i</strong><span id="emailmsg">请输入您的电子邮箱，用于登录和找回密码</span></div><!--默认 i class="msg_i"  正确class="msg_error"  错误class="msg_ok"-->
             </div>
+
+            <div class="ybc_user clearfix">
+                <div class="ybc_label left"><label for="mo">手机号码</label></div>
+                <div class="ybc_text left" style=" line-height:30px; width:209px;">
+                    <input name="phone" id="mo" value="" type="text">
+                </div>
+                <div class="ybc_hint left">
+                    <strong class="msg_i">i</strong>
+                    <span id="momsg">请输入您的手机号码</span>
+                </div>
+            </div>
+            <div class="ybc_user clearfix">
+                <div class="ybc_label left"><label for="code">验证码</label></div>
+                <div class="ybc_text left"><input name="code" id="code" value="" type="text"></div>
+                <div class="ybc_hint left"><input type="button" class="button" value="点击发送" id="msgt" data-key='on' onclick="sandPhone()"></div>
+            </div>
+
             <div class="ybc_user clearfix">
                 <div class="ybc_label left"><label for="pwd">登录密码</label></div>
                 <div class="ybc_text left"><input id="pwd" name="pwd" type="password"></div>
@@ -30,8 +47,9 @@
             </div>
             <div class="ybc_user clearfix">
                 <div class="ybc_label left"><label for="pid">邀请码</label></div>
-                <div class="ybc_text left"><input name="pid" <if condition="$pid">value="{$pid}" readonly="readonly"</if>  type="text"></div>
-                <div class="left" style="color:#f00; line-height:30px;">选填项</div>
+                <div class="ybc_text left"><input name="pid" id="pid" <if condition="$pid">value="{$pid}" readonly="readonly"</if>  type="text"></div>
+                <div class="ybc_hint left"><strong class="msg_i" id="pid_msg">i</strong><span id="pidmsg">必填项</span></div>
+                <!--<div class="left" style="color:#f00; line-height:30px;">必填项</div>-->
             </div>
             <div class="ybc_user clearfix">
                 <div class="ybc_label left"><label>&nbsp;</label></div>
@@ -65,7 +83,7 @@
 </div>
 <script src="__PUBLIC__/Home/js/form.js"></script>
 <script type="text/javascript">
-    vali = {email: 0, pwd: 0, repwd: 0,tongyi:1};
+    vali = {email: 0, pwd: 0, repwd: 0,tongyi:1,phone:0,pid:0,code:0};
     valistep2 = {pwdtrade: 0, repwdtrade: 0}
     $('#email').bind('blur', function(){
         var path_Email = "{:U('Reg/ajaxCheckEmail')}";
@@ -81,6 +99,86 @@
             vali.email = d['status'];
         }, 'json');
     });
+
+    $('#mo').bind('blur', function(){
+        if($(this).val().length != 11) {
+            vali.phone = 0;
+            return validateMsg('mo', '请输入手机号码', 0);
+        }
+        $.get("{:U('ModifyMember/ajaxCheckPhone')}" ,{phone:encodeURIComponent($(this).val())}, function(d){
+            validateMsg('mo', d['msg'], d['status']);
+            vali.phone = d['status'];
+        }, 'json');
+    });
+
+    $('#code').bind('blur', function(){
+        if($(this).val().length <= 0) {
+            vali.code = 0;
+            return validateMsg('code', '请输入验证码', 0);
+        }
+        vali.code = 1;
+    });
+
+
+    function sandPhone(){
+        var i=120;
+        var tid2;
+        tid2=setInterval(function(){
+            if($("#msgt").attr("data-key")=='off'){
+                $("#msgt").attr("disabled",true);
+                $("#msgt").removeClass("class");
+                $("#msgt").addClass("button again");
+                i--;
+                $("#msgt").val(i+"秒后可重新发送");
+                if(i<=0){
+                    $("#msgt").removeAttr("disabled").val("重新发送验证码");
+                    $("#msgt").attr("data-key","on");
+                }
+            }
+        },1000);
+        var phone = $("mo").val();
+
+        if(phone && /^1[3|4|5|8]\d{9}$/.test(phone)){
+            layer.msg("请填写正确的手机号码");
+        }else{
+            $.post("{:U('ModifyMember/ajaxSandPhone')}",{phone:encodeURIComponent($("#mo").val())},
+                    function(d){
+                        layer.msg(d.info);
+                        if(d.status==1){
+                            i=120;
+                            $("#msgt").attr("data-key","off");
+                        }
+                    });
+        }
+    }
+
+    $('#pid').bind('blur', function(){
+        var pLen = $(this).val().length;
+        if(pLen <=0) {
+            $('#pid_msg').html("×");
+            $('#pid_msg').css('msg_error');
+            vali.pid=0;
+            return validateMsg('pid', '必填项', 0);
+        }
+
+        var path_pid = "{:U('Reg/ajaxCheckPid')}";
+
+        $.get(path_pid,{pid:encodeURIComponent($(this).val())}, function(d){
+            if(d['status'] == 1){
+                $('#pid_msg').html("√");
+                $('#pid_msg').css('msg_ok');
+                return validateMsg('pid', '', vali.pid = 1);
+            }else{
+                $('#pid_msg').html("×");
+                $('#pid_msg').css('msg_error');
+                vali.pid=0;
+                return validateMsg('pid', '邀请码不存在', 0);
+            }
+
+        }, 'json');
+
+    });
+
 
     $('#pwd').bind('blur', function(){
         var pLen = $(this).val().length;

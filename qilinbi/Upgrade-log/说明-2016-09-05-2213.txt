@@ -1,0 +1,17 @@
+1.交易中心增加是否登录的验证 ，如果没有登录，跳转到登录页
+
+需要更新的文件：
+App\Home\Controller\OrdersController.class.php
+
+2.注册时修改成手机号，发送短信验证码
+  去掉必须是邮箱的验证，改成必须是手机号的验证
+测试账号123@qq.com
+123456
+交易密码:654321
+
+需要修改的文件：
+App\Home\View\Reg\reg
+App\Home\View\ModifyMember\modify
+
+App\Home\Controller\RegController.class.php
+App\Home\Model\MemberModel.class.php

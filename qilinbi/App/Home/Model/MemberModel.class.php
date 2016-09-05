@@ -20,18 +20,24 @@ class MemberModel extends Model{
         array('repwd','pwd','确认密码不正确',1,'confirm',1), //二次密码是否一样
     	array('email','','帐号名称已经存在！',0,'unique',1), // 在新增的时候验证name字段是否唯一
 
+        array('pid','require','邀请码不能为空',1,'',1),
+
         array('pwdtrade','require','交易密码不能为空',1,'',1),
         array('pwdtrade','checkPwd','交易密码不正确',1,'function',1), // 函数认证支付密码(同样要求)
         array('repwdtrade','pwdtrade','确认交易密码不正确',1,'confirm',1), // 二次密码是否一样
+
+        array('phone','require','手机号码必须填写',1,'',1),
+        array('code','require','验证码必须填写',1,'',1),
+        array('code','checkPhoneCode','手机验证码不正确',1,'function',1),
 
         //modify验证
 
         array('nick','require','昵称不能为空',1,'',2),
         array('name','require','真实姓名不能为空',1,'',2),
         array('idcard','require','身份证号码必须填写',1,'',2),
-        array('phone','require','手机号码必须填写',1,'',2),
-        array('code','require','验证码必须填写',1,'',2),
-        array('code','checkPhoneCode','手机验证码不正确',1,'function',2),
+        //array('phone','require','手机号码必须填写',1,'',2),
+        //array('code','require','验证码必须填写',1,'',2),
+        //array('code','checkPhoneCode','手机验证码不正确',1,'function',2),
     );
 
     protected $_auto = array(
