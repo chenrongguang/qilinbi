@@ -99,7 +99,10 @@ $(function() {
               </li>
               <li>
                 <label for="price" class="buys">买入价格：</label>
+                <!--
                 <input value="{$currency_message.buy_one_price|default='0.000'}" style="color:#999" name="buyprice" id="coinpricein" onkeyup="vNum(this,{$currency.currency_digit_num});zuidakemai();" onclick="if(value==defaultValue){value='';}" onblur="if(value==''){value='0.000';}" type="text">
+                -->
+                <input value="{$currency.set_price|default='0.000'}" readonly style="color:#999" name="buyprice" id="coinpricein" onkeyup="vNum(this,{$currency.currency_digit_num});zuidakemai();"  onblur="if(value==''){value='0.000';}" type="text" >
               </li>
               <li>
                 <label for="num" class="buys">最大可买：</label>
@@ -137,8 +140,11 @@ $(function() {
               </li>
               <li>
                 <label for="price" class="buys">卖出价格：</label>
+                <!--
                 <input value="{$currency_message.buy_one_price|default='0.000'}" style="color:#999" class="buyinput" id="coinpriceout" onkeyup="vNum2(this,{$currency.currency_digit_num});" onclick="if(value==defaultValue){value='';}" onblur="if(value==''){value='0.000';}" type="text">
-               
+               -->
+                <input value="{$currency.set_price|default='0.000'}" readonly style="color:#999" class="buyinput" id="coinpriceout" onkeyup="vNum2(this,{$currency.currency_digit_num});"  onblur="if(value==''){value='0.000';}" type="text">
+
               </li>
               <li>
                 <label for="num" class="buys">最大可卖：</label>
@@ -278,6 +284,12 @@ $(function() {
 <!--footer end--> 
 <input type="hidden" value="{$currency.currency_name|default='虚拟币'}"  id = "cname"/>
 <script>
+
+$(document).ready(function(){
+  zuidakemai();
+});
+
+
 function sell(){
 	var cname=$("#cname").val();
 	if($("#coinpriceout").val()==""){
@@ -317,6 +329,7 @@ function sell(){
 					//刷新页面
 					setTimeout(window.location.reload(),2000);
 					}
+                  zuidakemai();
 				}
 			});
 }, function(){
@@ -362,6 +375,8 @@ function buy(){
 				//刷新页面
 				setTimeout(window.location.reload(),2000);
 				}
+
+              zuidakemai();
 			}
 		});
 	}, function(){
