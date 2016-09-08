@@ -1,0 +1,8 @@
+货币添加交易价格字段
+会员的买卖以该字段来交易,而不是用原来的set_price
+
+修改的文件:
+App\Admin\View\Currency\add.html
+App\Admin\Controller\CurrencyController.class.php
+App\Cli\Controller\TaskController.class.php
+App\Home\View\Orders\index.html

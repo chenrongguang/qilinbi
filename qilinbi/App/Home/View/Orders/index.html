@@ -102,7 +102,7 @@ $(function() {
                 <!--
                 <input value="{$currency_message.buy_one_price|default='0.000'}" style="color:#999" name="buyprice" id="coinpricein" onkeyup="vNum(this,{$currency.currency_digit_num});zuidakemai();" onclick="if(value==defaultValue){value='';}" onblur="if(value==''){value='0.000';}" type="text">
                 -->
-                <input value="{$currency.set_price|default='0.000'}" readonly style="color:#999" name="buyprice" id="coinpricein" onkeyup="vNum(this,{$currency.currency_digit_num});zuidakemai();"  onblur="if(value==''){value='0.000';}" type="text" >
+                <input value="{$currency.trade_price|default='0.000'}" readonly style="color:#999" name="buyprice" id="coinpricein" onkeyup="vNum(this,{$currency.currency_digit_num});zuidakemai();"  onblur="if(value==''){value='0.000';}" type="text" >
               </li>
               <li>
                 <label for="num" class="buys">最大可买：</label>
@@ -143,7 +143,7 @@ $(function() {
                 <!--
                 <input value="{$currency_message.buy_one_price|default='0.000'}" style="color:#999" class="buyinput" id="coinpriceout" onkeyup="vNum2(this,{$currency.currency_digit_num});" onclick="if(value==defaultValue){value='';}" onblur="if(value==''){value='0.000';}" type="text">
                -->
-                <input value="{$currency.set_price|default='0.000'}" readonly style="color:#999" class="buyinput" id="coinpriceout" onkeyup="vNum2(this,{$currency.currency_digit_num});"  onblur="if(value==''){value='0.000';}" type="text">
+                <input value="{$currency.trade_price|default='0.000'}" readonly style="color:#999" class="buyinput" id="coinpriceout" onkeyup="vNum2(this,{$currency.currency_digit_num});"  onblur="if(value==''){value='0.000';}" type="text">
 
               </li>
               <li>

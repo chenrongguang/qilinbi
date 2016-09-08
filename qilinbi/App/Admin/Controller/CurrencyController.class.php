@@ -452,7 +452,7 @@ class CurrencyController extends AdminController {
 	//获取当前币种设置的价格
 	private function _getcurrencyprice($currency_id){
 		$where['currency_id']=$currency_id;
-		$result= M('currency')->field('set_price')->where($where)->find();
+		$result= M('currency')->field('trade_price')->where($where)->find();
 		if($result !=false && $result!=null){
 			return $result['set_price'];
 		}

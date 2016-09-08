@@ -303,12 +303,12 @@ class TaskController extends Controller
 
             //获取该货币当前的设置价格
             $where_currency['is_lock']=0;//允许交易
-            $model_currency=M('currency')->where($where_currency)->field('set_price')->find();
+            $model_currency=M('currency')->where($where_currency)->field('trade_price')->find();
             if($model_currency==false ||$model_currency ==null){
                 continue;
             }
 
-            $member_total_money=$num*$model_currency['set_price']; //可获得的总钱数，还没算比例的
+            $member_total_money=$num*$model_currency['trade_price']; //可获得的总钱数，还没算比例的
 
             $member_get = $model_para['member_get'];//会员获得的比例
             $member_get_money = $member_total_money * $member_get;//会员最终得到钱

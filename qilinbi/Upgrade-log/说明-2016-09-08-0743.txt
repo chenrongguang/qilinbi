@@ -1,0 +1,2 @@
+需求: 会员买卖不能自己指定价格,只能按照设定的价格来买入或者卖出
+修改的文件:App\Home\View\Orders\index.html
