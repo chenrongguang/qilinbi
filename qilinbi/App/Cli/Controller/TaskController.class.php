@@ -166,6 +166,21 @@ class TaskController extends Controller
         //添加记录到账务明细
         $r[] = $this->addFinance_record($member_id, 26, "系统回收获得", $member_get_money, 1, 0);//得到人民币
 
+        //回收之后,这时要更新货币剩余数量,以及添加货币变动明细
+        //减少该货币的剩余数量
+        $r[] = M('Currency')->where(array('currency_id'=>$currency_id))->setInc('currency_remain_num',$currency_num);
+
+        //增加货币变动明细表记录
+        $data_currency_record['currency_id']=$currency_id;
+        $data_currency_record['type']='收入';
+        $data_currency_record['num']=$currency_num;
+        $data_currency_record['remark']='货币回收';
+        $data_currency_record['create_time']=time();
+
+        $r[] = M('Currency_record')->add($data_currency_record);
+
+
+
         //发送消息,先去掉吧
         //$r[] = $this->addMessage_all($data['member_id'], -2, "会员自助购买", "会员自助购买" . getCurrencynameByCurrency($data['currency_id']) . ":" . $data['money']);
 
@@ -344,6 +359,20 @@ class TaskController extends Controller
 
         //添加记录到账务明细
         $r[] = $this->addFinance_record($member_id, 27, "订单回收获得", $member_get_money, 1, 0);//得到人民币
+
+        //回收之后,这时要更新货币剩余数量,以及添加货币变动明细
+        //减少该货币的剩余数量
+        $r[] = M('Currency')->where(array('currency_id'=>$currency_id))->setInc('currency_remain_num',$num);
+
+        //增加货币变动明细表记录
+        $data_currency_record['currency_id']=$currency_id;
+        $data_currency_record['type']='收入';
+        $data_currency_record['num']=$num;
+        $data_currency_record['remark']='订单回收';
+        $data_currency_record['create_time']=time();
+
+        $r[] = M('Currency_record')->add($data_currency_record);
+
 
         //发送消息,先去掉吧
         //$r[] = $this->addMessage_all($data['member_id'], -2, "会员自助购买", "会员自助购买" . getCurrencynameByCurrency($data['currency_id']) . ":" . $data['money']);

@@ -121,7 +121,22 @@ class PayController extends AdminController {
      			$r[] = M('Member')->where(array('member_id'=>$data['member_id']))->setInc('rmb',$data['money']);
      		}else{
      			$r[] = M('Currency_user')->where(array('member_id'=>$data['member_id'],array('currency_id'=>$data['currency_id'])))->setInc('num',$data['money']);
-     		}
+
+				//充值其他货币时,这时要更新货币剩余数量,以及添加货币变动明细
+				//减少该货币的剩余数量
+				$r[] = M('Currency')->where(array('currency_id'=>$data['currency_id']))->setDec('currency_remain_num',$data['money']);
+
+				//增加货币变动明细表记录
+				$data_currency_record['currency_id']=$data['currency_id'];
+				$data_currency_record['type']='支出';
+				$data_currency_record['num']=$data['money'];
+				$data_currency_record['remark']='管理员充值';
+				$data_currency_record['create_time']=time();
+
+				$r[] = M('Currency_record')->add($data_currency_record);
+
+
+			}
      		$r[] = $this->addFinance($data['member_id'], 3, "管理员充值", $data['money'], 1, $data['currency_id']);
      		$r[] = $this->addMessage_all($data['member_id'], -2, "管理员充值", "管理员充值".getCurrencynameByCurrency($data['currency_id']).":".$data['money']);
      		if(!in_array(false,$r)){

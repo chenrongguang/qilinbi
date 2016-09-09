@@ -462,5 +462,28 @@ class CurrencyController extends AdminController {
 
 	}
 
+	//展示变动记录列表
+	public  function  record(){
+
+		$currency_id=I('get.currency_id');
+
+		//$where=array();
+		$model = M('currency_record');
+		$count      = $model->where("currency_id='$currency_id'")->count();// 查询满足要求的总记录数
+		$Page       = new Page($count,25);// 实例化分页类 传入总记录数和每页显示的记录数(25)
+		$show       = $Page->show();// 分页显示输出
+		// 进行分页数据查询 注意limit方法的参数要使用Page类的属性
+		$field=C("DB_PREFIX")."currency_record.*,".C("DB_PREFIX")."currency.currency_name";
+		$list = $model
+				->join(C("DB_PREFIX")."currency on ".C("DB_PREFIX")."currency_record.currency_id=".C("DB_PREFIX")."currency.currency_id")
+				->field($field)
+				->where( C("DB_PREFIX")."currency_record.currency_id='$currency_id'")
+				->order(C("DB_PREFIX").'currency_record.id desc')
+				->limit($Page->firstRow.','.$Page->listRows)->select();
+		$this->assign('recordlist',$list);// 赋值数据集
+		$this->assign('page',$show);// 赋值分页输出
+		$this->display(); // 输出模板
+	}
+
     
 }

@@ -83,6 +83,21 @@ class SafeController extends HomeController
             $this->ajaxReturn($msg);
         }
 
+        //判断购买数量是否超过单次购买数量
+        if(I('buy_count', '', 'intval')> $currency['buy_max_num']){
+            $msg['status']=-6;
+            $msg['info']='购买数量超过设定的单次购买最大数量';
+            $this->ajaxReturn($msg);
+        }
+
+        //判断购买数量是否超过剩余数量
+        if(I('buy_count', '', 'intval')> $currency['currency_remain_num']){
+            $msg['status']=-6;
+            $msg['info']='购买数量超过该货币的剩余数量';
+            $this->ajaxReturn($msg);
+        }
+
+
         $money=I('buy_count', '', 'intval')*$price;
 
         $money_remain=$this->getUserMoney('', 'num');
@@ -114,6 +129,18 @@ class SafeController extends HomeController
         //添加记录到账务明细
         $r[] = $this->addFinance($data['member_id'], 24, "会员自助购买", $data['money'], 2, 0);//消耗人民币
         //$r[] = $this->addFinance($data['member_id'], 24, "会员自助购买", I('buy_count', '', 'intval'), 1, $data['currency_id']);//获得购买的币种
+
+        //减少该货币的剩余数量
+        $r[] = M('Currency')->where(array('currency_id'=>$data['currency_id']))->setDec('currency_remain_num',I('buy_count', '', 'intval'));
+
+        //增加货币变动明细表记录
+        $data_currency_record['currency_id']=$data['currency_id'];
+        $data_currency_record['type']='支出';
+        $data_currency_record['num']=I('buy_count', '', 'intval');
+        $data_currency_record['remark']='会员购买';
+        $data_currency_record['create_time']=time();
+
+        $r[] = M('Currency_record')->add($data_currency_record);
 
         //发送消息,先去掉吧
         //$r[] = $this->addMessage_all($data['member_id'], -2, "会员自助购买", "会员自助购买" . getCurrencynameByCurrency($data['currency_id']) . ":" . $data['money']);

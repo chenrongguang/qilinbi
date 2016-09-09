@@ -1,0 +1,26 @@
+1.后台增加查看货币变动明细页 -ok
+2.后台增加剩余货币数量字段 ,并在列表显示 -ok
+3.后台增加每次购买的最大数量  -ok
+4.前台购买时不能超过最大数量,也不能超过剩余数量 -ok
+5.前台购买之后要减少相应的剩余数量 -ok
+6.购买之后记录购买明细表 -ok
+7.充值之后,减少该货币的数量--ok
+8 充值之后记录到明细表 --ok
+9.系统回收之后,增加剩余的数量 --ok
+10.系统回收之后记录到明细表--ok
+11.订单回收之后,增加剩余的数量--ok
+12.订单回收之后记录到明细表--ok
+13.修复问题,后台财务日志-点击查询按钮,404页面  --ok
+
+增加的文件:
+\App\Admin\View\Currency\record.html
+
+修改的文件:
+\App\Admin\View\Finance\index.html
+\App\Admin\View\Currency\index.html
+\App\Admin\View\Currency\add.html
+\App\Admin\Controller\CurrencyController.class.php
+\App\Admin\Controller\PayController.class.php
+\App\Cli\Controller\TaskController.class.php
+\App\Common\Controller\CommonController.class.php
+\App\Home\Controller\SafeController.class.php
