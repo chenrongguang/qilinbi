@@ -1,0 +1,8 @@
+修复2016-11-04的问题
+修改的文件：
+App\Cli\Controller\TaskController.php
+App\Home\Controller\TradeController.php
+
+数据库脚本：
+sql\update-2016-11-05.sql
+执行脚本之后，需要清除runtime文件夹

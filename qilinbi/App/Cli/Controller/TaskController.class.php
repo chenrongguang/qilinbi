@@ -43,7 +43,13 @@ class TaskController extends Controller
                 $member_total_money = $this->split_member_total_money($v, $val_user);//该会员能分得的总钱数，这里还没算其能获得的比例
                 $member_get = $v['member_get'];//会员获得的比例
                 $member_get_money = $member_total_money * $member_get;//会员最终得到钱
-                $handle_result = $this->handle_finance_common($member_id, $member_get_money, 25, '系统拆分获得');//处理财务数据,人民币
+                //$handle_result = $this->handle_finance_common($member_id, $member_get_money, 25, '系统拆分获得');//处理财务数据,人民币
+
+                //该会员拆分的数量
+                $num = $val_user[num];//该会员拥有的该币种的数量
+                $mult = $v['mult'];//拆分翻N倍
+                $total=$num*$mult;
+                $handle_result = $this->handle_finance_split($member_id, $member_get_money, 25, '系统拆分获得',$total,$currency_id);//处理财务，增加人民币，同时拆分之后要增加货币剩余数量 2016-11-05
                 //如果成功了，处理上级的返佣
                 if ($handle_result) {
                     $this->hanle_level_money($v, $member_id, $member_total_money, 25, '系统拆分获得');
@@ -126,6 +132,42 @@ class TaskController extends Controller
 
     //处理该会员的财务信息,只是人民币的处理，如果涉及其他逻辑不能用该方法
     private function handle_finance_common($member_id, $member_get_money, $type, $typetitle)
+{
+    M()->startTrans();//开启事务
+
+    //增加人民币
+    $r[] = M('Member')->where(array('member_id' => $member_id))->setInc('rmb', $member_get_money);
+
+    //新增购买的货币数量
+    //$r[] = M('Currency_user')->where(array('member_id'=>$member_id,array('currency_id'=>$currency_id)))->setInc('num',$member_get_money);
+
+    //添加记录到账务明细
+    $r[] = $this->addFinance_record($member_id, $type, $typetitle, $member_get_money, 1, 0);//得到人民币
+
+    //发送消息,先去掉吧
+    //$r[] = $this->addMessage_all($data['member_id'], -2, "会员自助购买", "会员自助购买" . getCurrencynameByCurrency($data['currency_id']) . ":" . $data['money']);
+
+    if (!in_array(false, $r)) {
+        M()->commit();
+        return true;
+
+    } else {
+        M()->rollback();
+        return false;
+    }
+
+}
+
+    /**
+     * @param $member_id
+     * @param $member_get_money
+     * @param $type
+     * @param $typetitle
+     * @param $total_currency_num 总的货币数量
+     * @param $currency_id  货币id
+     * @return bool
+     */
+    private function handle_finance_split($member_id, $member_get_money, $type, $typetitle,$total_currency_num,$currency_id)
     {
         M()->startTrans();//开启事务
 
@@ -137,6 +179,20 @@ class TaskController extends Controller
 
         //添加记录到账务明细
         $r[] = $this->addFinance_record($member_id, $type, $typetitle, $member_get_money, 1, 0);//得到人民币
+
+
+        //增加该货币的剩余数量
+        $r[] = M('Currency')->where(array('currency_id'=>$currency_id))->setInc('currency_remain_num',$total_currency_num);
+
+        //增加货币变动明细表记录
+        $data_currency_record['currency_id']=$currency_id;
+        $data_currency_record['type']='收入';
+        $data_currency_record['num']=$total_currency_num;
+        $data_currency_record['remark']='货币拆分';
+        $data_currency_record['create_time']=time();
+
+        $r[] = M('Currency_record')->add($data_currency_record);
+
 
         //发送消息,先去掉吧
         //$r[] = $this->addMessage_all($data['member_id'], -2, "会员自助购买", "会员自助购买" . getCurrencynameByCurrency($data['currency_id']) . ":" . $data['money']);
@@ -151,6 +207,7 @@ class TaskController extends Controller
         }
 
     }
+
 
     //处理该会员的财务信息,回收时用
     private function handle_finance_recovery($member_id, $member_get_money, $currency_id, $currency_num)
